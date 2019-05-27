@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.2/handlebars.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="search">
+        <input type="text" class = "movie_name" placeholder="Cerca un film">
+        <span id = 'search_icon'><i class="fas fa-search"></i></span>
+      </div>
+      <div class="movie_cards_container">
+      </div>
+    </div>
+
+
+  <script id="template" type="text/x-handlebars-template">
+    <div class="movie">
+      <h3>Titolo: <span>{{title}}</span> </h3>
+      <h3>Titolo originale: <span>{{original_title}}</span> </h3>
+      <h3>Lingua: <span>{{language}}</span> </h3>
+      <h3>Voto: <span>{{vote_average}}</span> </h3>
+    </div>
+  </script>
+
+  <script src="script.js" charset="utf-8"></script>
+  </body>
+</html>
