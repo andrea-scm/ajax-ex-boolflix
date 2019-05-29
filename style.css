@@ -57,8 +57,7 @@ input[type="text"]::-webkit-input-placeholder {
   margin: 0 auto;
 }
 
-.movie,
-.tv {
+.cards {
   width: 310px;
   border: 1px solid #2494a2;
   color: white;

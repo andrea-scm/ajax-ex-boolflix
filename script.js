@@ -30,13 +30,11 @@ $(document).ready(function () {
         },
         'success': function (movie) {
           var movieSearched = movieCards(movie.results);
+          console.log('film');
+          console.log(movieSearched);
+          console.log('film');
           //console.log(movie.results);
-          var template = Handlebars.compile($('#template').html());
-          var html;
-          for (var field in movieSearched) {
-            html = template(movieSearched[field]);
-            $('.cards_container').append(html)
-          }
+          drawCards(movieSearched)
         },
         'error': function () {
           alert('errore');
@@ -50,16 +48,12 @@ $(document).ready(function () {
         'data':{
           'query': toSearch
         },
-        'success': function (tv) {
-          var tvSearched = tvCards(tv.results);
-          console.log(tv.results);
+        'success': function (serieTv) {
+          var tvSearched = tvCards(serieTv.results);
+          console.log(serieTv.results);
           console.log(tvSearched);
-          var template = Handlebars.compile($('#template').html());
-          var html;
-          for (var field in tvSearched) {
-            html_tv = template(tvSearched[field]);
-            $('.cards_container').append(html)
-          }
+          console.log(serieTv);
+          drawCards(tvSearched)
         },
         'error': function () {
           alert('errore');
@@ -70,6 +64,15 @@ $(document).ready(function () {
     };
   };
 
+
+  function drawCards(card) {
+    var template = Handlebars.compile($('#template').html());
+    var html;
+    for (var field in card) {
+      html = template(card[field]);
+      $('.cards_container').append(html)
+    }
+  }
 
 
   function movieCards(movie) {
@@ -86,6 +89,7 @@ $(document).ready(function () {
         break;
       };
       movies.push({
+        "type": 'Film',
         "title": movie[i].title,
         "original_title": movie[i].original_title,
         "vote_average": getStarsVote(movie[i].vote_average),
@@ -95,10 +99,10 @@ $(document).ready(function () {
     return movies
   };
 
-  function tvCards(serieTv) {
+  function tvCards(tv) {
     var serieTv = [];
-    for (var i = 0; i < serieTv.length; i++) {
-      var language = serieTv[i].original_language;
+    for (var i = 0; i < tv.length; i++) {
+      var language = tv[i].original_language;
       //cambia i codici dei paesi in modo da risultare uguali tra api ed il css flag-icon
       switch (language) {
         case 'en': language = 'gb';
@@ -109,9 +113,10 @@ $(document).ready(function () {
         break;
       };
       serieTv.push({
-        "name": serieTv[i].name,
-        "original_name": serieTv[i].original_name,
-        "vote_average": getStarsVote(serieTv[i].vote_average),
+        "type": 'Serie Tv',
+        "title": tv[i].name,
+        "original_title": tv[i].original_name,
+        "vote_average": getStarsVote(tv[i].vote_average),
         "language": '<span class="flag-icon flag-icon-'+language+'"'+'></span>'
       });
     };
