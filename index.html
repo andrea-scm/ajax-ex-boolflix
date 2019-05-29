@@ -24,12 +24,15 @@
 
 
   <script id="template" type="text/x-handlebars-template">
-    <div class="cards">
-      <h2>{{type}}</h2>
-      <h3>Titolo: <span>{{title}}</span> </h3>
-      <h3>Titolo originale: <span>{{original_title}}</span> </h3>
-      <h3>Lingua: {{{language}}} </h3>
-      <h3>Voto: <span>{{{vote_average}}}</span> </h3>
+    <div class = "cards">
+      {{{poster}}}
+      <div class="info">
+        <h2>{{type}}</h2>
+        <h3>Titolo: <span>{{title}}</span> </h3>
+        <h3>Titolo originale: <span>{{original_title}}</span> </h3>
+        <h3>Lingua: {{{language}}} </h3>
+        <h3>Voto: <span>{{{vote_average}}}</span> </h3>
+      </div>
     </div>
   </script>
 

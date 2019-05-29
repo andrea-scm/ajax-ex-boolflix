@@ -16,8 +16,13 @@ $(document).ready(function () {
     callApi(search)
   });
 
+  $(document).on('mouseenter mouseleave', '.cards',function () {
+    $(this).children('.poster').toggleClass('disable')
+    $(this).children('.info').toggleClass('active')
+    console.log($(this));
+  });
 
-
+  console.log($('.cards'));
 
   function callApi(toSearch) {
     if (toSearch.length > 0) {
@@ -30,10 +35,10 @@ $(document).ready(function () {
         },
         'success': function (movie) {
           var movieSearched = movieCards(movie.results);
-          console.log('film');
-          console.log(movieSearched);
-          console.log('film');
-          //console.log(movie.results);
+          // console.log('film');
+          // console.log(movieSearched);
+          // console.log('film');
+          console.log(movie.results);
           drawCards(movieSearched)
         },
         'error': function () {
@@ -51,8 +56,6 @@ $(document).ready(function () {
         'success': function (serieTv) {
           var tvSearched = tvCards(serieTv.results);
           console.log(serieTv.results);
-          console.log(tvSearched);
-          console.log(serieTv);
           drawCards(tvSearched)
         },
         'error': function () {
@@ -89,6 +92,7 @@ $(document).ready(function () {
         break;
       };
       movies.push({
+        "poster": '<img class = "poster" src="https://image.tmdb.org/t/p/w342/'+movie[i].poster_path+'"'+'>',
         "type": 'Film',
         "title": movie[i].title,
         "original_title": movie[i].original_title,
@@ -113,6 +117,7 @@ $(document).ready(function () {
         break;
       };
       serieTv.push({
+        "poster": '<img class = "poster" src="https://image.tmdb.org/t/p/w342/'+tv[i].poster_path+'"'+'>',
         "type": 'Serie Tv',
         "title": tv[i].name,
         "original_title": tv[i].original_name,

@@ -53,17 +53,42 @@ input[type="text"]::-webkit-input-placeholder {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 90%;
+  width: 98%;
   margin: 0 auto;
 }
 
-.cards {
-  width: 310px;
-  border: 1px solid #2494a2;
-  color: white;
+.poster{
+  display: block;
+  width: 342px;
+  height: 513px;
   padding: 10px;
   margin: 15px;
+}
+.poster.disable{
+  display: none;
+}
+
+.cards {
+  width: 342px;
+  height: 513px;
+  color: white;
+  margin: 15px;
   border-radius: 2px;
+  position: relative;
+}
+
+.info{
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 75%;
+  margin: 0 auto;
+}
+
+.info.active{
+  display: block;
 }
 
 h3{
