@@ -12,14 +12,25 @@
   </head>
   <body>
 
-    <div class="container">
+    <header>
+      <div class="website_Id">
+        <h1 id = "websiteLogo">Boolflix</h1>
+      </div>
+      <div class="menu">
+        <ul>
+          <li class="border film">Film</li>
+          <li class = "serie_tv">Serie TV</li>
+        </ul>
+      </div>
       <div class="search">
         <input type="text" class = "toSearch" placeholder="Cerca un film">
         <span id = 'search_icon'><i class="fas fa-search"></i></span>
       </div>
+    </header>
+
+    <div class="container">
       <div class="cards_container">
       </div>
-
     </div>
 
 
@@ -27,11 +38,11 @@
     <div class = "cards">
       {{{poster}}}
       <div class="info">
-        <h2>{{type}}</h2>
         <h3>Titolo: <span>{{title}}</span> </h3>
         <h3>Titolo originale: <span>{{original_title}}</span> </h3>
         <h3>Lingua: {{{language}}} </h3>
         <h3>Voto: <span>{{{vote_average}}}</span> </h3>
+        <h3>Overview: <span>{{overview}}</span> </h3>
       </div>
     </div>
   </script>

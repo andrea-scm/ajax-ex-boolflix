@@ -1,30 +1,61 @@
 $(document).ready(function () {
 
-
-
   $('.toSearch').keypress(function (enter) {
     var search = '';
     var keyCode = (enter.which);
     if (keyCode == '13') {
       search = $('.toSearch').val();
+      //se ho selezionato film verrano visualizzati solo i Film
+      //altrimenti se ho selezionato serie tv verranno visualizzati solo le serie tv
+      if ($(".film").hasClass('border')) {
+        callApiMovie(search)
+        clearHTML($('.cards_container'));
+        $('.toSearch').val('');
+      }else if ($(".serie_tv").hasClass('border')) {
+        $('.toSearch').val('');
+        clearHTML($('.cards_container'));
+        callApiTv(search)
+      }
     }
-    callApi(search)
   });
 
   $('#search_icon').click(function () {
     var search = $('.toSearch').val();
-    callApi(search)
+    //se ho selezionato film verrano visualizzati solo i Film
+    //altrimenti se ho selezionato serie tv verranno visualizzati solo le serie tv
+    if ($(".film").hasClass('border')) {
+      callApiMovie(search)
+      clearHTML($('.cards_container'));
+      $('.toSearch').val('');
+    }else if ($(".serie_tv").hasClass('border')) {
+      $('.toSearch').val('');
+      clearHTML($('.cards_container'));
+      callApiTv(search)
+    }
   });
+
+  //assegno il bordo all'elemento selezionato del menu (film/serie tv)
+  //e in base a quello selezionato cambio il testo del placeholder
+  //in modo da ricercare solo film o solo serie tv
+  $('ul').on('click','li',function(){
+    $('li.border').removeClass('border');
+    $(this).addClass('border');
+
+    if ($('.serie_tv').hasClass('border')) {
+      $('.toSearch').attr("placeholder", "Cerca una serie TV");
+    }else {
+      $('.toSearch').attr("placeholder", "Cerca un film");
+    }
+  });
+
 
   $(document).on('mouseenter mouseleave', '.cards',function () {
     $(this).children('.poster').toggleClass('disable')
     $(this).children('.info').toggleClass('active')
-    console.log($(this));
   });
 
-  console.log($('.cards'));
-
-  function callApi(toSearch) {
+  //api per visualizzare i film
+  function callApiMovie(toSearch) {
     if (toSearch.length > 0) {
       //ajax film
       $.ajax({
@@ -35,17 +66,20 @@ $(document).ready(function () {
         },
         'success': function (movie) {
           var movieSearched = movieCards(movie.results);
-          // console.log('film');
-          // console.log(movieSearched);
-          // console.log('film');
-          console.log(movie.results);
+          //console.log(movieSearched); //levare dai commenti se si vuole verificare il console che si tratta solo di film
+          console.log(movie);
           drawCards(movieSearched)
         },
         'error': function () {
           alert('errore');
         }
       });
+    }
+  };
 
+  //api per visualizzare le serie tv
+  function callApiTv(toSearch) {
+    if (toSearch.length > 0) {
       //ajax serie tv
       $.ajax({
         'url': 'https://api.themoviedb.org/3/search/tv?api_key=dbdd37b88ef4b1fdd0bb521b31a40924&query=toSearch',
@@ -55,19 +89,17 @@ $(document).ready(function () {
         },
         'success': function (serieTv) {
           var tvSearched = tvCards(serieTv.results);
-          console.log(serieTv.results);
+          //console.log(tvSearched); //levare dai commenti se si vuole verificare il console che si tratta solo di serie tv
           drawCards(tvSearched)
         },
         'error': function () {
           alert('errore');
         }
       });
-    }else {
-      clearHTML($('.cards_container'));
-    };
+    }
   };
 
-
+  //api che mi rappresenta gli elementi su handlebars
   function drawCards(card) {
     var template = Handlebars.compile($('#template').html());
     var html;
@@ -77,7 +109,7 @@ $(document).ready(function () {
     }
   }
 
-
+  //caratteristiche card film
   function movieCards(movie) {
     var movies = [];
     for (var i = 0; i < movie.length; i++) {
@@ -97,12 +129,17 @@ $(document).ready(function () {
         "title": movie[i].title,
         "original_title": movie[i].original_title,
         "vote_average": getStarsVote(movie[i].vote_average),
-        "language": '<span class="flag-icon flag-icon-'+language+'"'+'></span>'
+        "language": '<span class="flag-icon flag-icon-'+language+'"'+'></span>',
+        "overview": movie[i].overview,
       });
+      if (!(movie[i].overview.length > 0)) {
+        movie[i].overview = "Not available"
+      }
     };
     return movies
   };
 
+  //caratteristiche card serie tv
   function tvCards(tv) {
     var serieTv = [];
     for (var i = 0; i < tv.length; i++) {
@@ -122,8 +159,12 @@ $(document).ready(function () {
         "title": tv[i].name,
         "original_title": tv[i].original_name,
         "vote_average": getStarsVote(tv[i].vote_average),
-        "language": '<span class="flag-icon flag-icon-'+language+'"'+'></span>'
+        "language": '<span class="flag-icon flag-icon-'+language+'"'+'></span>',
+        "overview": tv[i].overview
       });
+      if (!(serieTv[i].overview.length > 0)) {
+        serieTv[i].overview = "Not available"
+      }
     };
     return serieTv
   };
@@ -144,7 +185,6 @@ $(document).ready(function () {
     }
     return stars
   };
-
 
   function clearHTML(toClear){
     toClear.html('')
